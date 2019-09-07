@@ -11,7 +11,6 @@ public class WikiCorpusMapper extends Mapper<Object, Text, IntWritable, Text> {
     private Text word = new Text();
     
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-    
         if(value.toString() == null || value.toString().length() == 0){
             return;
         }

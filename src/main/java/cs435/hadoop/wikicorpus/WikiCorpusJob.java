@@ -23,6 +23,7 @@ public class WikiCorpusJob {
         //Output from reducer 
         job.setOutputKeyClass(IntWritable.class);
         job.setOutputValueClass(Text.class);
+
         
         //Path to input and output HDFS
         FileInputFormat.addInputPath(job, new Path(args[0]));
