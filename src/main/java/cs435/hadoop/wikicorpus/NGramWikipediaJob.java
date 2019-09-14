@@ -18,9 +18,9 @@ public class NGramWikipediaJob {
         //Name of the MR job. You'll see it in the YARN webapp
         Job job = Job.getInstance(conf, "N-Gram of Wiki Corpus");
         
-        job.setJarByClass(Profile2Job.class);
-        job.setMapperClass(Profile2Mapper.class);
-        job.setReducerClass(Profile2Reducer.class);
+        job.setJarByClass(NGramWikipediaJob.class);
+        job.setMapperClass(NGramWikipediaMapper.class);
+        job.setReducerClass(NGramWikipediaReducer.class);
         
         //Output from reducer 
         job.setOutputKeyClass(IntWritable.class);
