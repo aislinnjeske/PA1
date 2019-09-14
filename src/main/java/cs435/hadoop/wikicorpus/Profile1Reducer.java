@@ -6,7 +6,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import java.util.*;
 import java.io.IOException;
 
-public class WikiCorpusReducer extends Reducer<IntWritable, Text, IntWritable, Text>{
+public class Profile1Reducer extends Reducer<IntWritable, Text, IntWritable, Text>{
     private Set<String> sortedUnigrams = new TreeSet<>();
     
     public void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
