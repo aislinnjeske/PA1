@@ -8,22 +8,26 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
-public class WikiCorpusJob {
+public class NGramWikipediaJob {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         
         //Name of the MR job. You'll see it in the YARN webapp
         Job job = Job.getInstance(conf, "N-Gram of Wiki Corpus");
         
-        job.setJarByClass(WikiCorpusJob.class);
-        job.setMapperClass(WikiCorpusMapper.class);
-        job.setReducerClass(WikiCorpusReducer.class);
+        job.setJarByClass(NGramWikipediaJob.class);
+        job.setMapperClass(NGramWikipediaMapper.class);
+        job.setReducerClass(NGramWikipediaReducer.class);
         
         //Output from reducer 
         job.setOutputKeyClass(IntWritable.class);
         job.setOutputValueClass(Text.class);
-
+        
+        MultipleOutputs.addNamedOutput(job, "Profile1", TextOutputFormat.class, IntWritable.class, Text.class);
+        MultipleOutputs.addNamedOutput(job, "Profile2", TextOutputFormat.class, IntWritable.class, Text.class);
         
         //Path to input and output HDFS
         FileInputFormat.addInputPath(job, new Path(args[0]));
