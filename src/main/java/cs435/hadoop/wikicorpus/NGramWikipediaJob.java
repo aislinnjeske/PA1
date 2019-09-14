@@ -28,6 +28,8 @@ public class NGramWikipediaJob {
         
         MultipleOutputs.addNamedOutput(job, "Profile1", TextOutputFormat.class, IntWritable.class, Text.class);
         MultipleOutputs.addNamedOutput(job, "Profile2", TextOutputFormat.class, IntWritable.class, Text.class);
+        MultipleOutputs.addNamedOutput(job, "Profile3", TextOutputFormat.class, IntWritable.class, Text.class);
+
         
         //Path to input and output HDFS
         FileInputFormat.addInputPath(job, new Path(args[0]));

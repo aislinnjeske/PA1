@@ -11,6 +11,7 @@ import java.util.TreeMap;
 public class NGramWikipediaReducer extends Reducer<IntWritable, Text, IntWritable, Text>{
     private MultipleOutputs mos;
     private Set<String> allUnigramsInCorpus = new TreeSet<>();
+    private Map<String, Integer> allUnigramsAndFrequencyInCorpus = new HashMap<String, Integer>();
     
     //key = document ID, value = word
     public void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
@@ -31,21 +32,43 @@ public class NGramWikipediaReducer extends Reducer<IntWritable, Text, IntWritabl
             } else {
                 unigrams.put(val.toString(), 1);
             }
+            
+            //Keeping track of frequency of unigrams for corpus for Profile3
+            if(allUnigramsAndFrequencyInCorpus.containsKey(val.toString())){
+                int count = allUnigramsAndFrequencyInCorpus.get(val.toString());
+                count++;
+                allUnigramsAndFrequencyInCorpus.put(val.toString(), count);
+            } else {
+                allUnigramsAndFrequencyInCorpus.put(val.toString(), 1);
+            }
         }
         
-        //Sort in decreasing order by value
+        //Sort in decreasing order by value for profile2
         unigrams.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).forEachOrdered(x -> sortedUnigrams.put(x.getKey(), x.getValue()));
         
+        //Print unigrams for each documentID in a new file for profile2
         for(String entry : sortedUnigrams.keySet()){
             mos.write(new IntWritable(sortedUnigrams.get(entry)), new Text(entry), "DocumentID=" + key.toString());
         }
     }
     
     protected void cleanup(Context context) throws IOException, InterruptedException {
+        //Print unigrams for profile1
         Iterator itr = allUnigramsInCorpus.iterator();
         while(itr.hasNext()){
             mos.write("Profile1", null, new Text((String) itr.next()));
         }
+        
+        //Sort map in decreasing order by value for profile 3
+        LinkedHashMap<String, Integer> sortedUnigrams = new LinkedHashMap<String,Integer>();
+        allUnigramsAndFrequencyInCorpus.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).forEachOrdered(x -> sortedUnigrams.put(x.getKey(), x.getValue()));
+        
+        //Print unigrams for profile3
+        for(String entry : sortedUnigrams.keySet()){
+            mos.write("Profile3", new IntWritable(sortedUnigrams.get(entry)), new Text(entry));
+        }
+        
+        
         mos.close();
     }
 }
