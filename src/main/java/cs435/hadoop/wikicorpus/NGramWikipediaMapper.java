@@ -6,7 +6,7 @@ import org.apache.hadoop.io.Text;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-public class Profile2Mapper extends Mapper<Object, Text, IntWritable, Text> {
+public class NGramWikipediaMapper extends Mapper<Object, Text, IntWritable, Text> {
     
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
         if(value.toString() == null || value.toString().length() == 0){

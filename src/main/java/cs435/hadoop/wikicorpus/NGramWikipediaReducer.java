@@ -8,7 +8,7 @@ import java.util.*;
 import java.io.IOException;
 import java.util.TreeMap;
 
-public class Profile2Reducer extends Reducer<IntWritable, Text, IntWritable, Text>{
+public class NGramWikipediaReducer extends Reducer<IntWritable, Text, IntWritable, Text>{
     private MultipleOutputs mos;
     private Set<String> allUnigramsInCorpus = new TreeSet<>();
     

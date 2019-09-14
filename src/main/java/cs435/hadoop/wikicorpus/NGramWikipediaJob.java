@@ -11,7 +11,7 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
-public class Profile2Job {
+public class NGramWikipediaJob {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         
