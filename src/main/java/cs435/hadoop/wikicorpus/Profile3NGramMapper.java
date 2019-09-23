@@ -6,7 +6,7 @@ import org.apache.hadoop.io.Text;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-public class NGramWikipediaMapper extends Mapper<Object, Text, IntWritable, Text> {
+public class Profile3NGramMapper extends Mapper<Object, Text, IntWritable, Text> {
     
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
         if(value.toString() == null || value.toString().length() == 0){
@@ -20,9 +20,10 @@ public class NGramWikipediaMapper extends Mapper<Object, Text, IntWritable, Text
         StringTokenizer itr = new StringTokenizer(line[2]);
         while(itr.hasMoreTokens()){
             String word = itr.nextToken().toLowerCase().replaceAll("[^a-zA-Z0-9]+","");
-            Text text = new Text();
-            text.set(word);
-            context.write(new IntWritable(documentID), text);
+            
+            if(word.length() > 0){
+                context.write(new IntWritable(documentID), new Text(word));
+            }
         }
     }
 }
